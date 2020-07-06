@@ -1,9 +1,24 @@
+import axios from 'axios';
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
 
+axios.get('https://api.github.com/users/ginxy13th')
+
+.then(response => {
+  console.log(response)
+  //  let user = response.data.data
+  // response.data.data.forEach((data) => { 
+  // let card = document.querySelector('.cards');
+    cardMaker(response.data);
+    // newCard.appendChild(card);
+    //  });
+})
+.catch(error =>{
+  console.log('there was an error:', error);
+})
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -28,7 +43,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+// const followersArray = [];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,7 +64,59 @@ const followersArray = [];
       </div>
     </div>
 */
+function cardMaker(info){
+  console.log(info)
+  let newCard = document.createElement('div');
+  newCard.classList.add('card');
 
+    let img = document.createElement('img');
+    img.src = info.avatar_url;
+    newCard.appendChild(img);
+    
+    let cardInfo = document.createElement('div');
+    cardInfo.classList.add('card-info');
+    newCard.appendChild(cardInfo);
+
+      let name  = document.createElement('h3');
+      name.classList.add('name');
+      name.textContent = info.name;
+      cardInfo.appendChild(name);
+
+      let username = document.createElement('p');
+      username.classList.add('username');
+      username.textContent = info.login;
+      cardInfo.appendChild(username);
+
+      let location = document.createElement('p');
+      location.textContent= info.location;
+      cardInfo.appendChild(location);
+
+      let profile = document.createElement('p');
+      profile.textContent = `Profile: `;
+      cardInfo.appendChild(profile);
+
+      let profileLink = document.createElement('a');
+      profileLink.href = info.html_url;
+      profileLink.textContent = `${info.html_url}`;
+      profile.appendChild(profileLink);
+
+      let followers = document.createElement('p');
+      followers.textContent = info.followers;
+      cardInfo.appendChild(followers);
+
+      let following = document.createElement('p');
+      following.textContent = info.following;
+      cardInfo.appendChild(following);
+
+      let bio = document.createElement('p');
+      bio.textContent = `Bio: ${info.bio}`;
+      cardInfo.appendChild(bio);
+
+      let card = document.querySelector('.cards');
+      card.appendChild(newCard);
+      return card;
+
+}
 /*
   List of LS Instructors Github username's:
     tetondan
